@@ -1,6 +1,5 @@
-from ctypes import cast
+import sys
 from pathlib import Path
-from xmlrpc.client import Boolean
 from decouple import config
 import django_heroku
 
@@ -15,11 +14,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', cast=bool)
+if (len(sys.argv) >= 2 and sys.argv[1] == 'runserver'):
+    DEBUG = True
+else:
+    DEBUG = False
 
-ALLOWED_HOSTS = [
-    '*'
-]
+ALLOWED_HOSTS = []
 
 
 # Application definition
